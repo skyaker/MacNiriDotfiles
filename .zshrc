@@ -1,0 +1,97 @@
+# fastfetch --logo ~/.config/fastfetch/pxArt_1.png
+
+# ----------------------------------------Interface and plugins----------------------------------------
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+eval $(thefuck --alias fix)
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# ----------------------------------------------Code things----------------------------------------------
+
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+export CC=/opt/homebrew/opt/llvm/bin/clang
+export CXX=/opt/homebrew/opt/llvm/bin/clang++
+
+export JAVA_HOME="$(brew --prefix openjdk)/libexec/openjdk.jdk/Contents/Home"
+export PATH="$JAVA_HOME/bin:$PATH"
+
+export LPAND=~/latexpand/latexpand
+alias latexpand="perl ~/latexpand/latexpand"
+
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export CONDA_VER="miniconda3"
+# export CONDA_VER="miniconda-x86"
+
+alias conda-arm='source /Users/jungdongwook/miniconda3/bin/activate'
+alias conda-x86='source /Users/jungdongwook/miniconda-x86/bin/activate'
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/jungdongwook/$CONDA_VER/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/jungdongwook/$CONDA_VER/etc/profile.d/conda.sh" ]; then
+        . "/Users/jungdongwook/$CONDA_VER/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/jungdongwook/$CONDA_VER/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+# fastfetch --kitty-direct ~/.config/fastfetch/lain.jpg --logo-width 20 --logo-height 10
+# fastfetch --logo ~/.config/fastfetch/lain.txt
+# fastfetch --logo-type small --pipe false
+
+# ----------------------------------------------Tmux----------------------------------------------
+
+# tat: tmux attach
+function tat {
+  name=$(basename `pwd` | sed -e 's/\.//g')
+
+  if tmux ls 2>&1 | grep "$name"; then
+    tmux attach -t "$name"
+  elif [ -f .envrc ]; then
+    direnv exec / tmux new-session -s "$name"
+  else
+    tmux new-session -s "$name"
+  fi
+}
+export PATH="$PATH:$(go env GOPATH)/bin"
+
+# ----------------------------------------------TEMP----------------------------------------------
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+export PATH="$HOME/.local/bin:$PATH"
+
+alias run-python='docker run --rm --entrypoint /bin/bash -v $(pwd):/workspace -w /workspace mlcc_calib:latest -c'
+
+# ---------------------------------------------OLLAMA---------------------------------------------
+
+export OLLAMA_NUM_GPU=50
+export OLLAMA_MAX_LOADED_MODELS=1
+export OLLAMA_KEEP_ALIVE=5m
+
+export PATH=$PATH:/Users/jungdongwook/.spicetify
+export PATH="$HOME/Library/Python/3.12/bin:$PATH"

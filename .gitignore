@@ -1,0 +1,31 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Logs and runtime files
+*.log
+*.pid
+*.pid.lock
+
+# Editor temporary files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Local caches and state
+.cache/
+__pycache__/
+*.py[cod]
+
+# Secrets and machine-local configuration
+*.env
+*.env.*
+!.env.example
+*/.env
+
+# Images are local visual assets and screenshots, not dotfile source.
+*.png
+*.jpg
+*.jpeg

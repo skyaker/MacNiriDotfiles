@@ -1,0 +1,27 @@
+#!/bin/sh
+# Focus the first matching niri window, or launch the command that follows the
+# app-id. `niri msg -j windows` uses app_id for both native Wayland and Xwayland
+# clients where the compositor can identify the application.
+
+set -eu
+
+app_id=$1
+shift
+
+window_id=$(niri msg -j windows | python3 -c '
+import json
+import sys
+
+target = sys.argv[1].casefold()
+for window in json.load(sys.stdin):
+    current = (window.get("app_id") or "").casefold()
+    if target in current:
+        print(window["id"])
+        break
+' "$app_id")
+
+if [ -n "$window_id" ]; then
+    exec niri msg action focus-window --id "$window_id"
+fi
+
+exec "$@"

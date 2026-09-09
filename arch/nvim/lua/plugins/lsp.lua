@@ -1,0 +1,13 @@
+return {
+  {
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = {
+        "pyright",
+        "cssls",
+        "gopls",
+        "groovyls",
+      },
+    },
+  },
+}

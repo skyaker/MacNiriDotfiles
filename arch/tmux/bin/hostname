@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Compatibility fallback for tmux-resurrect on systems without inetutils.
+exec uname -n
