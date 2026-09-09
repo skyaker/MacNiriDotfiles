@@ -1,7 +1,10 @@
 {
   "currentThemeName": "dynamic",
   "currentThemeCategory": "dynamic",
-  "matugenContrast": -0.3,
+  "customThemeFile": "/home/skyaker/.config/DankMaterialShell/themes/editorial-brutalist.json",
+  "matugenScheme": "scheme-neutral",
+  "controlCenterTileColorMode": "surfaceVariant",
+  "buttonColorMode": "surfaceVariant",
   "cornerRadius": 12,
   "controlCenterShowMicPercent": true,
   "appIdSubstitutions": [],
@@ -22,7 +25,6 @@
       "cursorHideTimeout": 0
     }
   },
-  "dankIslandBarId": "default",
   "osdPowerProfileEnabled": true,
   "barConfigs": [
     {
@@ -45,7 +47,6 @@
         "weather"
       ],
       "rightWidgets": [
-        "systemTray",
         "keyboard_layout_name",
         "clipboard",
         "cpuUsage",
