@@ -29,3 +29,7 @@ __pycache__/
 *.png
 *.jpg
 *.jpeg
+
+# This wallpaper is referenced by arch/hypr/hyprlock.conf and is needed for a
+# portable lock-screen configuration.
+!arch/hypr/wallpaper_2.jpg

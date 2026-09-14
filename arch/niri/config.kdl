@@ -74,36 +74,15 @@ input {
 // The built-in laptop monitor is usually called "eDP-1".
 // Find more information on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Outputs
-// Remember to uncomment the node by removing "/-"!
-/-output "eDP-1" {
-    // Uncomment this line to disable this output.
-    // off
+// The Xiaomi external monitor is physically to the left of the laptop screen.
+// Positions use logical pixels: DP-2 is 1920 wide; eDP-1 is scaled to 1.25.
+output "DP-2" {
+    position x=0 y=0
+}
 
-    // Resolution and, optionally, refresh rate of the output.
-    // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
-    // If the refresh rate is omitted, niri will pick the highest refresh rate
-    // for the resolution.
-    // If the mode is omitted altogether or is invalid, niri will pick one automatically.
-    // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "1920x1080@120.030"
-
-    // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 2
-
-    // Transform allows to rotate the output counter-clockwise, valid values are:
-    // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
-    transform "normal"
-
-    // Position of the output in the global coordinate space.
-    // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
-    // The cursor can only move between directly adjacent outputs.
-    // Output scale and rotation has to be taken into account for positioning:
-    // outputs are sized in logical, or scaled, pixels.
-    // For example, a 3840×2160 output with scale 2.0 will have a logical size of 1920×1080,
-    // so to put another output directly adjacent to it on the right, set its x to 1920.
-    // If the position is unset or results in an overlap, the output is instead placed
-    // automatically.
-    position x=1280 y=0
+output "eDP-1" {
+    scale 1.25
+    position x=1920 y=0
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -320,6 +299,13 @@ window-rule {
     default-column-width {}
 }
 
+// Keep Kitty's translucent surface consistent in tiled and maximized states:
+// draw its border around the client, never as a background behind it.
+window-rule {
+    match app-id="kitty"
+    draw-border-with-background false
+}
+
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
@@ -344,7 +330,7 @@ window-rule {
 // Keep the compositor's geometry deliberately square. Apps that support
 // server-side decoration already follow prefer-no-csd; this covers the rest.
 window-rule {
-    geometry-corner-radius 0
+    geometry-corner-radius 3
     clip-to-geometry true
 }
 
@@ -416,8 +402,8 @@ binds {
     Mod+Up    { focus-window-up; }
     Mod+Right { focus-column-right; }
     Mod+H     { focus-column-left; }
-    Mod+J     { focus-window-down; }
-    Mod+K     { focus-window-up; }
+    Mod+J     { focus-workspace-down; }
+    Mod+K     { focus-workspace-up; }
     Mod+L     { focus-column-right; }
 
     Mod+Ctrl+Left  { move-column-left; }
@@ -425,8 +411,8 @@ binds {
     Mod+Ctrl+Up    { move-window-up; }
     Mod+Ctrl+Right { move-column-right; }
     Mod+Ctrl+H     { move-column-left; }
-    Mod+Ctrl+J     { move-window-down; }
-    Mod+Ctrl+K     { move-window-up; }
+    Mod+Ctrl+J     { move-window-to-workspace-down; }
+    Mod+Ctrl+K     { move-window-to-workspace-up; }
     Mod+Ctrl+L     { move-column-right; }
 
     // Alternative commands that move across workspaces when reaching
@@ -463,9 +449,15 @@ binds {
     // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
     // ...
 
-    // And you can also move a whole workspace to another monitor:
-    // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
-    // ...
+    // Move the whole current workspace to a neighbouring monitor.
+    Mod+Alt+Shift+Left  { move-workspace-to-monitor-left; }
+    Mod+Alt+Shift+Down  { move-workspace-to-monitor-down; }
+    Mod+Alt+Shift+Up    { move-workspace-to-monitor-up; }
+    Mod+Alt+Shift+Right { move-workspace-to-monitor-right; }
+    Mod+Alt+Shift+H     { move-workspace-to-monitor-left; }
+    Mod+Alt+Shift+J     { move-workspace-to-monitor-down; }
+    Mod+Alt+Shift+K     { move-workspace-to-monitor-up; }
+    Mod+Alt+Shift+L     { move-workspace-to-monitor-right; }
 
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
