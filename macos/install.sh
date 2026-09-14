@@ -1,18 +1,19 @@
 #!/bin/bash
 
-DOTFILES_DIR=$(pwd)
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+REPO_DIR=$(cd -- "$SCRIPT_DIR/.." && pwd)
 
 link_config() {
     local name=$1
     mkdir -p "$HOME/.config"
     rm -rf "$HOME/.config/$name"
-    ln -s "$DOTFILES_DIR/$name" "$HOME/.config/$name"
+    ln -s "$SCRIPT_DIR/$name" "$HOME/.config/$name"
 }
 
 link_home() {
     local file=$1
     rm -rf "$HOME/$file"
-    ln -s "$DOTFILES_DIR/$file" "$HOME/$file"
+    ln -s "$REPO_DIR/$file" "$HOME/$file"
 }
 
 CONFIG_APPS=("nvim" "kitty" "sketchybar" "fastfetch" "borders" "tmux")
@@ -31,9 +32,9 @@ for file in "${HOME_FILES[@]}"; do
     fi
 done
 
-if [ -d ".hammerspoon" ]; then
+if [ -d "$REPO_DIR/.hammerspoon" ]; then
     rm -rf "$HOME/.hammerspoon"
-    ln -s "$DOTFILES_DIR/.hammerspoon" "$HOME/.hammerspoon"
+    ln -s "$REPO_DIR/.hammerspoon" "$HOME/.hammerspoon"
 fi
 
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then

@@ -1,6 +1,6 @@
-TARGET = ~/.config
+TARGET = $(HOME)/.config
 
-STOW = stow -d ~/dotfiles/arch
+STOW = stow -d $(CURDIR)
 .RECIPEPREFIX := >
 install:
 >$(STOW) -t $(TARGET)/nvim nvim
